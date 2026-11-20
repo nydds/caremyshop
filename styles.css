@@ -85,6 +85,8 @@ img, svg { max-width: 100%; height: auto; }
 .nav { display: flex; align-items: center; gap: 22px; }
 .nav a { color: var(--navy); text-decoration: none; font-size: 0.95rem; font-weight: 600; }
 .nav a:hover { color: var(--emerald-dark); }
+.nav a.btn { color: #fff; }
+.nav a.btn:hover { color: #fff; }
 
 /* ---- Buttons ---- */
 .btn {
