@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CareMyShop — 1페이지 전단 (한국어)</title>
+<meta name="description" content="CareMyShop: 우리 동네 가게를 위한 매일 온라인 케어. 30일 무료 파일럿.">
+<style>
+  :root { --navy:#0F2942; --emerald:#10B981; --emerald-dark:#0B8A66; --off:#F8FAFC; --ink:#1F2937; --muted:#5B6B7C; --line:#E2E8F0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:#E5E7EB; font-size:12.5px; line-height:1.55; }
+  .page { background:#fff; max-width:7.5in; margin:24px auto; padding:0.45in 0.5in 0.4in; box-shadow:0 4px 24px rgba(0,0,0,.18); }
+  .masthead { display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid var(--emerald); padding-bottom:12px; }
+  .brand { font-family:Georgia,serif; font-size:26px; font-weight:700; color:var(--navy); }
+  .brand em { font-style:normal; color:var(--emerald); }
+  .brand small { display:block; font-family:system-ui,sans-serif; font-size:9px; letter-spacing:2.4px; color:var(--muted); font-weight:700; }
+  .badge { background:var(--navy); color:#fff; border-radius:10px; padding:10px 14px; text-align:center; }
+  .badge b { display:block; font-size:20px; color:var(--emerald); line-height:1.1; }
+  .badge span { font-size:10px; }
+  h1 { font-family:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif; color:var(--navy); font-size:26px; line-height:1.3; margin:16px 0 6px; }
+  h1 span { color:var(--emerald-dark); }
+  .sub { font-size:13px; color:var(--muted); margin:0 0 14px; max-width:6.9in; }
+  h2 { font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--emerald-dark); margin:16px 0 8px; }
+  .cols { display:flex; gap:18px; }
+  .cols > div { flex:1; }
+  ul.tight { margin:0; padding-left:0; list-style:none; }
+  ul.tight li { padding:4px 0 4px 20px; position:relative; border-top:1px solid var(--line); }
+  ul.tight li::before { content:"✓"; position:absolute; left:2px; color:var(--emerald); font-weight:800; }
+  table.plans { width:100%; border-collapse:collapse; font-size:12px; }
+  table.plans th, table.plans td { border:1px solid var(--line); padding:7px 9px; text-align:left; vertical-align:top; }
+  table.plans th { background:var(--navy); color:#fff; font-size:11.5px; }
+  table.plans td.price { font-weight:700; font-size:15px; color:var(--navy); white-space:nowrap; }
+  .steps { display:flex; gap:12px; }
+  .step { flex:1; background:var(--off); border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
+  .step b.num { display:inline-flex; width:22px; height:22px; border-radius:50%; background:var(--navy); color:#fff; align-items:center; justify-content:center; font-size:12px; margin-bottom:4px; }
+  .step p { margin:2px 0 0; font-size:11.5px; }
+  .sample { background:#ECFDF5; border-left:3px solid var(--emerald); border-radius:0 8px 8px 0; padding:10px 12px; font-size:12px; }
+  .sample b { color:var(--navy); }
+  .cta { margin-top:16px; background:var(--navy); color:#fff; border-radius:10px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; gap:14px; }
+  .cta b { font-size:16px; }
+  .cta p { margin:2px 0 0; font-size:11.5px; color:#CBD5E1; }
+  .cta a { color:#fff; font-weight:700; }
+  .fine { margin-top:10px; font-size:10px; color:var(--muted); text-align:center; }
+  .print-hint { max-width:7.5in; margin:12px auto 0; text-align:center; font-size:12px; color:#374151; }
+  .print-hint button { padding:6px 14px; border-radius:999px; border:1px solid #9CA3AF; background:#fff; cursor:pointer; font-weight:700; }
+  @media print {
+    body { background:#fff; }
+    .print-hint { display:none; }
+    .page { margin:0; max-width:none; box-shadow:none; padding:0; }
+    @page { size:Letter; margin:0.5in; }
+  }
+</style>
+</head>
+<body>
+<div class="print-hint">1페이지 전단 — <button onclick="window.print()">인쇄 / PDF로 저장</button></div>
+<div class="page">
+  <header class="masthead">
+    <div class="brand">Care<em>My</em>Shop<small>DAILY ONLINE CARE</small></div>
+    <div class="badge"><b>$0</b><span>30일 무료 파일럿<br>창립 5개 가게 한정</span></div>
+  </header>
+
+  <h1>구글 리뷰 답글부터 매주 업데이트까지,<br><span>매일 가게를 돌봐드립니다.</span></h1>
+  <p class="sub">동네 가게를 위한 품격 있는 매일 케어 — 정성 어린 리뷰 답글, 매주 새 게시물, 주변 가게와 비교한 월간 스냅샷. 거품 낀 대행사 비용도, 광고비 묶어두기도 없습니다.</p>
+
+  <div class="cols">
+    <div>
+      <h2>해드리는 일</h2>
+      <ul class="tight">
+        <li>모든 리뷰에 48시간 내 답글 — 사장님 가게 말투 그대로</li>
+        <li>매주 구글 게시물·새 사진 업데이트</li>
+        <li>매월 1페이지 스냅샷 — 주변 3개 가게와 비교</li>
+        <li>영업시간·공휴일 변경도 대신 챙겨드립니다</li>
+      </ul>
+    </div>
+    <div>
+      <h2>약속드립니다</h2>
+      <ul class="tight">
+        <li><strong>비밀번호 공유 절대 없음</strong> — 관리자 초대로만 연결</li>
+        <li>1~3점 리뷰 답글은 사장님 승인 후 게시</li>
+        <li>언제든 해지 가능 · 숨은 비용 없음</li>
+        <li>모든 답글에 손님 말 속 구체적 내용 인용 — 틀에 박힌 문구 금지</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>간단한 요금</h2>
+  <table class="plans">
+    <tr><th>플랜</th><th>요금</th><th>포함 내용</th></tr>
+    <tr><td><strong>30일 무료 파일럿</strong></td><td class="price">$0</td><td>이후 월 $39 고정 · 48시간 내 답글 · 매주 게시 · 월간 스냅샷</td></tr>
+    <tr><td><strong>케어 베이직</strong></td><td class="price">월 $59</td><td>파일럿 내용 전부, 계속 · 실시간 영업시간·공휴일 업데이트</td></tr>
+    <tr><td><strong>케어 플러스</strong></td><td class="price">월 $99</td><td>베이직 전부 · 1페이지 모바일 미니 홈페이지 · 리뷰 QR 탁상 POP · 대표 Q&amp;A 5개</td></tr>
+  </table>
+
+  <h2>시작은 3단계</h2>
+  <div class="steps">
+    <div class="step"><b class="num">1</b><p><strong>관리자 초대 보내기.</strong> 사장님 구글 계정에서 초대만 보내면 됩니다. 비밀번호는 절대 공유하지 않습니다. 전화로 10분이면 됩니다.</p></div>
+    <div class="step"><b class="num">2</b><p><strong>매주 답글·게시.</strong> 모든 리뷰에 정성껏 답글을 달고, 프로필을 매주 새롭게 유지합니다.</p></div>
+    <div class="step"><b class="num">3</b><p><strong>매월 스냅샷 수령.</strong> 리뷰 수·평점 변화·답글률을 주변 3개 가게와 비교해 드리고, 다음 달 할 일 하나를 짚어드립니다.</p></div>
+  </div>
+
+  <h2>사장님 가게 말투 그대로 — 답글 샘플</h2>
+  <div class="sample">
+    <b>손님 (2점):</b> &ldquo;금요일 밤에 테이블 기다리는 데 45분이나 걸렸는데, 기다리는 동안 아무도 알려주지 않았어요. 버섯 리소토는 정말 맛있었는데 그래서 더 아쉬워요.&rdquo;<br>
+    <b>저희 답글:</b> &ldquo;맞는 말씀입니다. 죄송합니다. 금요일에 45분을 아무 안내 없이 기다리게 한 건 저희 잘못입니다. 이제 문자 대기 알림을 도입해 기다리는 동안 소식을 전해드립니다. 다음에 오시면 버섯 리소토는 저희가 대접하겠습니다.&rdquo;
+  </div>
+
+  <div class="cta">
+    <div>
+      <b>30일 무료로 시작하세요.</b>
+      <p>5개 가게 한정. 파일럿 기간에는 카드 결제 없음. 언제든 해지 가능.</p>
+    </div>
+    <div style="text-align:right">
+      <a href="mailto:caremyshop.team@gmail.com">caremyshop.team@gmail.com</a>
+      <p>&ldquo;창립 5개 가게 파일럿&rdquo;이라고 말씀해 주세요</p>
+    </div>
+  </div>
+  <p class="fine">© 2026 CareMyShop · CareMyShop은 구글 비즈니스 프로필 관리자 초대로만 연결되며 비밀번호를 절대 묻지 않습니다. 요금은 미국 달러(USD) 기준입니다.</p>
+</div>
+</body>
+</html>

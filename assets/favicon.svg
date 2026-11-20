@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="CareMyShop">
+  <title>CareMyShop</title>
+  <rect width="64" height="64" rx="14" fill="#0F2942"/>
+  <!-- Awning -->
+  <path d="M10 26 L54 26 L54 18 Q54 12 48 12 L16 12 Q10 12 10 18 Z" fill="#F8FAFC"/>
+  <path d="M20 12 L22 26 L30 26 L28 12 Z" fill="#10B981"/>
+  <path d="M38 12 L40 26 L48 26 L46 12 Z" fill="#10B981"/>
+  <circle cx="15" cy="26" r="4" fill="#F8FAFC"/>
+  <circle cx="27" cy="26" r="4" fill="#10B981"/>
+  <circle cx="39" cy="26" r="4" fill="#F8FAFC"/>
+  <circle cx="51" cy="26" r="4" fill="#10B981"/>
+  <!-- Checkmark -->
+  <path d="M18 42 L28 51 L47 31" fill="none" stroke="#10B981" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CareMyShop — 单页传单（中文）</title>
+<meta name="description" content="CareMyShop：为街坊小店提供每天的线上贴心照料。30天免费试用。">
+<style>
+  :root { --navy:#0F2942; --emerald:#10B981; --emerald-dark:#0B8A66; --off:#F8FAFC; --ink:#1F2937; --muted:#5B6B7C; --line:#E2E8F0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:#E5E7EB; font-size:12.5px; line-height:1.6; }
+  .page { background:#fff; max-width:7.5in; margin:24px auto; padding:0.45in 0.5in 0.4in; box-shadow:0 4px 24px rgba(0,0,0,.18); }
+  .masthead { display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid var(--emerald); padding-bottom:12px; }
+  .brand { font-family:Georgia,serif; font-size:26px; font-weight:700; color:var(--navy); }
+  .brand em { font-style:normal; color:var(--emerald); }
+  .brand small { display:block; font-family:system-ui,sans-serif; font-size:9px; letter-spacing:2.4px; color:var(--muted); font-weight:700; }
+  .badge { background:var(--navy); color:#fff; border-radius:10px; padding:10px 14px; text-align:center; }
+  .badge b { display:block; font-size:20px; color:var(--emerald); line-height:1.1; }
+  .badge span { font-size:10px; }
+  h1 { color:var(--navy); font-size:25px; line-height:1.35; margin:16px 0 6px; }
+  h1 span { color:var(--emerald-dark); }
+  .sub { font-size:13px; color:var(--muted); margin:0 0 14px; max-width:6.9in; }
+  h2 { font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--emerald-dark); margin:16px 0 8px; }
+  .cols { display:flex; gap:18px; }
+  .cols > div { flex:1; }
+  ul.tight { margin:0; padding-left:0; list-style:none; }
+  ul.tight li { padding:4px 0 4px 20px; position:relative; border-top:1px solid var(--line); }
+  ul.tight li::before { content:"✓"; position:absolute; left:2px; color:var(--emerald); font-weight:800; }
+  table.plans { width:100%; border-collapse:collapse; font-size:12px; }
+  table.plans th, table.plans td { border:1px solid var(--line); padding:7px 9px; text-align:left; vertical-align:top; }
+  table.plans th { background:var(--navy); color:#fff; font-size:11.5px; }
+  table.plans td.price { font-weight:700; font-size:15px; color:var(--navy); white-space:nowrap; }
+  .steps { display:flex; gap:12px; }
+  .step { flex:1; background:var(--off); border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
+  .step b.num { display:inline-flex; width:22px; height:22px; border-radius:50%; background:var(--navy); color:#fff; align-items:center; justify-content:center; font-size:12px; margin-bottom:4px; }
+  .step p { margin:2px 0 0; font-size:11.5px; }
+  .sample { background:#ECFDF5; border-left:3px solid var(--emerald); border-radius:0 8px 8px 0; padding:10px 12px; font-size:12px; }
+  .sample b { color:var(--navy); }
+  .cta { margin-top:16px; background:var(--navy); color:#fff; border-radius:10px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; gap:14px; }
+  .cta b { font-size:16px; }
+  .cta p { margin:2px 0 0; font-size:11.5px; color:#CBD5E1; }
+  .cta a { color:#fff; font-weight:700; }
+  .fine { margin-top:10px; font-size:10px; color:var(--muted); text-align:center; }
+  .print-hint { max-width:7.5in; margin:12px auto 0; text-align:center; font-size:12px; color:#374151; }
+  .print-hint button { padding:6px 14px; border-radius:999px; border:1px solid #9CA3AF; background:#fff; cursor:pointer; font-weight:700; }
+  @media print {
+    body { background:#fff; }
+    .print-hint { display:none; }
+    .page { margin:0; max-width:none; box-shadow:none; padding:0; }
+    @page { size:Letter; margin:0.5in; }
+  }
+</style>
+</head>
+<body>
+<div class="print-hint">单页传单 — <button onclick="window.print()">打印 / 保存为 PDF</button></div>
+<div class="page">
+  <header class="masthead">
+    <div class="brand">Care<em>My</em>Shop<small>DAILY ONLINE CARE</small></div>
+    <div class="badge"><b>$0</b><span>30天免费试用<br>仅限5家创始店铺</span></div>
+  </header>
+
+  <h1>Google 评论，我们来回复。<br>您的店铺，<span>我们每天照看。</span></h1>
+  <p class="sub">为街坊小店提供的管家级每日线上照料——用心的评论回复、每周更新、每月一份清晰的竞争对手对比。没有臃肿的中介费，也没有广告费捆绑。</p>
+
+  <div class="cols">
+    <div>
+      <h2>我们为您做什么</h2>
+      <ul class="tight">
+        <li>每条评论48小时内回复，用您店铺自己的语气</li>
+        <li>每周发布 Google 动态和新照片</li>
+        <li>每月一页简报：与附近3家店铺对比</li>
+        <li>营业时间、节假日变更都帮您打理</li>
+      </ul>
+    </div>
+    <div>
+      <h2>我们的承诺</h2>
+      <ul class="tight">
+        <li><strong>绝不索要密码</strong>——仅通过管理员邀请接入</li>
+        <li>1–3星评论的回复先由您确认再发布</li>
+        <li>随时可取消 · 没有隐藏费用</li>
+        <li>每条回复都引用顾客原话里的具体细节，绝不用模板</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>价格简单明了</h2>
+  <table class="plans">
+    <tr><th>方案</th><th>价格</th><th>包含内容</th></tr>
+    <tr><td><strong>30天免费试用</strong></td><td class="price">$0</td><td>之后每月 $39 锁定 · 48小时内回复 · 每周发布 · 每月简报</td></tr>
+    <tr><td><strong>Care Basic 基础版</strong></td><td class="price">$59/月</td><td>试用全部内容，长期持续 · 营业时间与节假日实时更新</td></tr>
+    <tr><td><strong>Care Plus 进阶版</strong></td><td class="price">$99/月</td><td>基础版全部 · 一页手机迷你网站 · 评论二维码桌牌 · 热门问答5条</td></tr>
+  </table>
+
+  <h2>三步即可开始</h2>
+  <div class="steps">
+    <div class="step"><b class="num">1</b><p><strong>邀请我们成为管理员。</strong>在您自己的 Google 账号里发送邀请即可——绝不分享密码。电话沟通约10分钟。</p></div>
+    <div class="step"><b class="num">2</b><p><strong>我们每周回复、发布。</strong>每条评论都得到用心回复，您的店铺资料整月保持新鲜。</p></div>
+    <div class="step"><b class="num">3</b><p><strong>每月收到简报。</strong>评论数、评分变化、回复率与附近3家店铺对比，并附上下月一条具体建议。</p></div>
+  </div>
+
+  <h2>像您在状态最好时说的话——回复示例</h2>
+  <div class="sample">
+    <b>顾客（2星）：</b>“周五晚上等位等了45分钟，等待期间没有任何人告诉我们情况。蘑菇烩饭很好吃，所以更让人失望。”<br>
+    <b>我们的回复：</b>“您说得对，非常抱歉——周五晚上让您毫无消息地等了45分钟，是我们的不对。我们已经增加了短信等位通知，再也不会让客人干等。下次来，蘑菇烩饭我们请客。”
+  </div>
+
+  <div class="cta">
+    <div>
+      <b>领取您的30天免费试用。</b>
+      <p>仅限5家店铺。试用期间不扣任何费用。随时可取消。</p>
+    </div>
+    <div style="text-align:right">
+      <a href="mailto:caremyshop.team@gmail.com">caremyshop.team@gmail.com</a>
+      <p>请说明“5家创始店铺试用”</p>
+    </div>
+  </div>
+  <p class="fine">© 2026 CareMyShop · CareMyShop 仅通过 Google 商家资料管理员邀请接入，绝不索要您的密码。价格以美元（USD）计。</p>
+</div>
+</body>
+</html>
