@@ -34,4 +34,5 @@
 ## Pages
 
 - Landing page: https://nydds.github.io/caremyshop/
+- Live interactive demo (pick a shop type + review, toggle the guard rails, see the reply change): https://nydds.github.io/caremyshop/demo.html
 - Printable 1-page flyers: /flyer-en.html (English), /flyer-ko.html (Korean), /flyer-es.html (Spanish), /flyer-zh.html (Chinese).

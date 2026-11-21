@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Demo — Try a CareMyShop review reply | CareMyShop</title>
+  <meta name="description" content="Pick a shop type and a Google review, flip the guard rails on and off, and watch the CareMyShop reply change in real time. No signup, no email — the same four safety rules we use on real reviews.">
+  <link rel="canonical" href="https://nydds.github.io/caremyshop/demo.html">
+  <meta name="theme-color" content="#0F2942">
+  <meta name="robots" content="index, follow">
+  <!-- Social preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CareMyShop">
+  <meta property="og:url" content="https://nydds.github.io/caremyshop/demo.html">
+  <meta property="og:title" content="Live demo — press a button, watch the reply change">
+  <meta property="og:description" content="Choose a shop type and a review, then turn the guard rails on and off. See exactly what CareMyShop would post — and what it refuses to post. 30 days free for 5 founding shops.">
+  <meta property="og:image" content="https://nydds.github.io/caremyshop/assets/og-card.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CareMyShop — your neighborhood shop, looked after every day.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Live demo — press a button, watch the reply change">
+  <meta name="twitter:description" content="Choose a shop type and a review, then turn the guard rails on and off. 30 days free for 5 founding shops.">
+  <meta name="twitter:image" content="https://nydds.github.io/caremyshop/assets/og-card.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ---------- Live demo page ---------- */
+    .nav a[aria-current="page"] { color: var(--emerald-dark); text-decoration: underline; text-underline-offset: 4px; }
+
+    .demo-hero {
+      background: linear-gradient(180deg, #fff 0%, var(--off-white) 100%);
+      padding: 52px 0 40px;
+      border-bottom: 1px solid var(--line);
+    }
+    .demo-hero h1 { max-width: 24ch; }
+    .demo-hero .lede { max-width: 700px; }
+    .demo-cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 22px; }
+    .demo-hero-note { font-size: 0.9rem; color: var(--muted); margin: 14px 0 0; }
+    .demo-hero-note b { color: var(--navy); }
+
+    .demo-grid { display: grid; grid-template-columns: 318px minmax(0, 1fr); gap: 24px; align-items: start; }
+    .demo-controls { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 82px; }
+
+    .ctrl {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 15px 15px 17px;
+      box-shadow: 0 2px 10px rgba(15, 41, 66, 0.05);
+    }
+    .ctrl-head { display: flex; align-items: center; gap: 9px; margin: 0 0 11px; }
+    .ctrl-num {
+      width: 22px; height: 22px; flex: 0 0 22px;
+      border-radius: 50%; background: var(--navy); color: #fff;
+      font-size: 0.74rem; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .ctrl-head h2 {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 0.73rem; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--navy); font-weight: 800; margin: 0;
+    }
+
+    .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .pick {
+      display: flex; align-items: center; gap: 8px; min-width: 0;
+      padding: 10px; border: 1.5px solid var(--line); background: #fff;
+      border-radius: 12px; font-family: inherit; font-size: 0.85rem; font-weight: 600;
+      color: var(--navy); line-height: 1.25; text-align: left; cursor: pointer;
+      transition: border-color 0.12s ease, background 0.12s ease;
+    }
+    .pick svg { width: 19px; height: 19px; flex: 0 0 19px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; color: var(--muted); }
+    .pick:hover { border-color: #B9C6D4; }
+    .pick[aria-pressed="true"] { border-color: var(--emerald); background: #ECFDF5; box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.35); }
+    .pick[aria-pressed="true"] svg { color: var(--emerald-dark); }
+    .pick:focus-visible { outline: 3px solid rgba(16, 185, 129, 0.45); outline-offset: 1px; }
+
+    .scenario-list { display: flex; flex-direction: column; gap: 8px; }
+    .scenario { align-items: flex-start; }
+    .scenario .s-main { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+    .scenario .s-stars { color: var(--gold); font-size: 0.76rem; letter-spacing: 1.5px; line-height: 1.1; }
+    .scenario .s-tag { font-size: 0.82rem; font-weight: 700; }
+
+    .rail-list { display: flex; flex-direction: column; gap: 11px; }
+    .rail { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 9px; align-items: start; cursor: pointer; }
+    .rail input { width: 17px; height: 17px; margin: 2px 0 0; accent-color: var(--emerald); cursor: pointer; }
+    .rail .r-label { display: block; font-size: 0.87rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
+    .rail .r-hint { display: block; margin-top: 2px; font-size: 0.76rem; color: var(--muted); line-height: 1.4; }
+    .rail-reset {
+      margin-top: 12px; padding: 0; border: 0; background: none;
+      font: inherit; font-size: 0.8rem; font-weight: 700;
+      color: var(--emerald-dark); text-decoration: underline; cursor: pointer;
+    }
+
+    .stage { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 6px 20px rgba(15, 41, 66, 0.06); min-width: 0; }
+
+    .review-card { padding: 19px 21px 17px; border-left: 4px solid var(--navy); }
+    .r-top { display: flex; flex-wrap: wrap; gap: 6px 11px; align-items: center; margin-bottom: 10px; }
+    .r-stars { color: var(--gold); letter-spacing: 2px; font-size: 1.02rem; line-height: 1; }
+    .r-tag { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--emerald-dark); background: #ECFDF5; border-radius: 999px; padding: 3px 9px; }
+    .r-meta { font-size: 0.79rem; color: var(--muted); margin-left: auto; }
+    .review-card h2 { font-family: Georgia, "Times New Roman", serif; font-size: 1.1rem; margin: 0 0 8px; color: var(--navy); }
+    .review-card blockquote { margin: 0; font-size: 0.97rem; color: #334155; }
+    .review-card blockquote footer { margin-top: 8px; font-size: 0.79rem; color: var(--muted); font-weight: 600; }
+
+    .draft-card { overflow: hidden; }
+    .draft-top {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+      padding: 12px 18px; border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #FBFDFF, #F2F7FA);
+    }
+    .draft-who { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .draft-avatar {
+      width: 30px; height: 30px; flex: 0 0 30px; border-radius: 50%;
+      background: var(--navy); color: #fff; font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.02em; display: inline-flex; align-items: center; justify-content: center;
+    }
+    .draft-name { display: block; font-weight: 800; font-size: 0.88rem; color: var(--navy); }
+    .draft-sub { display: block; font-size: 0.76rem; color: var(--muted); }
+    .pill { margin-left: auto; font-size: 0.71rem; font-weight: 800; padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+    .pill.ok { background: #ECFDF5; color: #047857; }
+    .pill.warn { background: #FEF3C7; color: #92400E; }
+    .pill.review { background: #E8EEF6; color: #1B3A5C; }
+
+    .draft-body { padding: 17px 20px 4px; font-size: 1rem; line-height: 1.72; color: #22303D; overflow-wrap: anywhere; }
+    .draft-body p { margin: 0 0 1em; }
+    .draft-body p:last-child { color: var(--navy); font-weight: 600; }
+    .rail-off { background: #FEF3C7; box-shadow: inset 0 -2px 0 #F59E0B; border-radius: 3px; padding: 0 2px; }
+    .rail-off-tag { display: inline-block; margin-left: 5px; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #92400E; background: #FDE68A; border-radius: 4px; padding: 1px 5px; vertical-align: 1px; }
+
+    .draft-why { margin: 0 20px 16px; padding: 10px 13px; background: #F8FAFC; border-left: 3px solid var(--emerald); border-radius: 0 8px 8px 0; font-size: 0.85rem; color: var(--muted); }
+    .draft-why b { color: var(--navy); }
+
+    .draft-foot { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 18px; border-top: 1px solid var(--line); background: #FBFDFF; }
+    .draft-count { font-size: 0.78rem; color: var(--muted); }
+    .copy-reply {
+      border: 0; cursor: pointer; background: var(--emerald); color: #fff;
+      font: inherit; font-size: 0.92rem; font-weight: 800;
+      padding: 11px 20px; border-radius: 999px; box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+    }
+    .copy-reply:hover { background: var(--emerald-dark); }
+    .copy-reply.is-copied { background: var(--navy); box-shadow: none; }
+    .copy-reply:focus-visible { outline: 3px solid rgba(15, 41, 66, 0.4); outline-offset: 2px; }
+
+    .policy-card { padding: 14px 18px 15px; }
+    .policy-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+    .policy-head h3 {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 0.73rem; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--navy); font-weight: 800; margin: 0;
+    }
+    .policy-count { margin-left: auto; font-size: 0.77rem; font-weight: 700; color: var(--muted); }
+    .policy-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .policy-list li { display: grid; grid-template-columns: 17px minmax(0, 1fr); gap: 9px; align-items: start; font-size: 0.85rem; color: #334155; }
+    .p-mark { font-weight: 800; }
+    .p-mark.on { color: var(--emerald-dark); }
+    .p-mark.off { color: #B45309; }
+    .p-rule { font-weight: 700; color: var(--navy); }
+    .p-note { display: block; font-size: 0.78rem; color: var(--muted); }
+    .p-note.alert { color: #92400E; font-weight: 600; }
+
+    .demo-foot-note { font-size: 0.81rem; color: var(--muted); margin: 0; }
+
+    .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .why { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 18px 20px; }
+    .why .why-num { font-family: Georgia, serif; font-size: 1.5rem; font-weight: 700; color: var(--emerald); line-height: 1; display: block; margin-bottom: 8px; }
+    .why h3 { font-size: 1rem; margin-bottom: 6px; }
+    .why p { font-size: 0.89rem; color: var(--muted); margin: 0; }
+
+    .demo-pilot { background: var(--navy); color: #fff; }
+    .demo-pilot .wrap { max-width: 760px; text-align: center; }
+    .demo-pilot h2 { color: #fff; }
+    .demo-pilot .lede { color: #CBD5E1; margin-left: auto; margin-right: auto; }
+    .demo-pilot .demo-cta-row { justify-content: center; }
+    .demo-pilot .demo-hero-note { color: #94A3B8; }
+    .btn-ghost-light { border-color: rgba(255, 255, 255, 0.7); color: #fff; }
+    .btn-ghost-light:hover { background: #fff; color: var(--navy); }
+
+    @media (max-width: 1000px) {
+      .why-grid { grid-template-columns: 1fr 1fr; }
+      .demo-grid { grid-template-columns: 280px minmax(0, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .demo-grid { grid-template-columns: 1fr; }
+      .demo-controls { position: static; }
+      .shop-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .scenario-list { display: grid; grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .demo-hero { padding: 40px 0 32px; }
+      .demo-cta-row .btn { width: 100%; text-align: center; }
+      .shop-grid { grid-template-columns: 1fr 1fr; }
+      .scenario-list { grid-template-columns: 1fr; }
+      .review-card { padding: 16px 15px 15px; }
+      .r-meta { margin-left: 0; width: 100%; }
+      .draft-top { padding: 11px 14px; }
+      .draft-body { padding: 15px 14px 2px; font-size: 0.97rem; }
+      .draft-why { margin: 0 14px 14px; }
+      .draft-foot { padding: 12px 14px; }
+      .copy-reply { width: 100%; text-align: center; }
+      .policy-card { padding: 13px 14px 14px; }
+      .why-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="CareMyShop home">
+      <img src="assets/logo.svg" alt="CareMyShop logo" width="40" height="40">
+      <span class="brand-name">Care<em>My</em>Shop</span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html#plans">Plans</a>
+      <a href="index.html#samples">Review replies</a>
+      <a href="demo.html" aria-current="page">Live demo</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#faq">FAQ</a>
+      <a class="btn btn-navy btn-sm" href="index.html#pilot">Start free pilot</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="demo-hero">
+    <div class="wrap">
+      <p class="eyebrow">Live demo · no signup · 30 seconds</p>
+      <h1>Write a review. Watch the reply <span style="color:var(--emerald-dark)">it deserves</span>.</h1>
+      <p class="lede">This is the reply engine itself, not a screenshot. Pick a shop type and a review, then flip the guard rails on and off to see exactly what changes — the same four rules that decide what we will and will not post on your profile.</p>
+      <div class="demo-cta-row">
+        <a class="btn btn-primary" href="index.html#pilot">Start 30-Day Free Pilot</a>
+        <a class="btn btn-ghost" href="#demo">Try the demo below</a>
+      </div>
+      <p class="demo-hero-note"><b>Every 1–3★ reply waits for your approval</b> before it is posted. 4–5★ replies go up within 48 hours.</p>
+    </div>
+  </section>
+
+  <!-- Interactive demo -->
+  <section class="section" id="demo">
+    <div class="wrap">
+      <div class="demo-grid">
+
+        <aside class="demo-controls" aria-label="Demo controls">
+          <div class="ctrl">
+            <div class="ctrl-head"><span class="ctrl-num">1</span><h2>Your shop type</h2></div>
+            <div class="shop-grid" id="shop-grid"></div>
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-head"><span class="ctrl-num">2</span><h2>Pick a review</h2></div>
+            <div class="scenario-list" id="scenario-list"></div>
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-head"><span class="ctrl-num">3</span><h2>Guard rails</h2></div>
+            <div class="rail-list" id="rail-list"></div>
+            <button class="rail-reset" id="rail-reset" type="button">Turn all guard rails back on</button>
+          </div>
+        </aside>
+
+        <div class="stage">
+          <article class="card review-card" id="review-card" aria-live="polite"></article>
+
+          <article class="card draft-card">
+            <div class="draft-top">
+              <div class="draft-who">
+                <span class="draft-avatar" aria-hidden="true">CMS</span>
+                <span>
+                  <span class="draft-name">CareMyShop draft</span>
+                  <span class="draft-sub" id="draft-sub">Reply for Bright Smile Dental</span>
+                </span>
+              </div>
+              <span class="pill ok" id="draft-pill">Ready to post</span>
+            </div>
+            <div class="draft-body" id="draft-body"></div>
+            <p class="draft-why" id="draft-why"></p>
+            <div class="draft-foot">
+              <span class="draft-count" id="draft-count"></span>
+              <button class="copy-reply" id="copy-reply" type="button">Copy draft reply</button>
+            </div>
+          </article>
+
+          <div class="card policy-card">
+            <div class="policy-head">
+              <h3>Guard-rail check</h3>
+              <span class="policy-count" id="policy-count"></span>
+            </div>
+            <ul class="policy-list" id="policy-list"></ul>
+          </div>
+
+          <p class="demo-foot-note">Sample shops and reviews, written to show the range across four kinds of neighborhood business. Your own replies are written in your shop’s voice — English, Korean or Spanish.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Why the guard rails matter -->
+  <section class="section alt" id="why">
+    <div class="wrap">
+      <div class="section-head center">
+        <p class="eyebrow">Why the guard rails matter</p>
+        <h2>Anyone can generate a nice-sounding reply. Ours can be posted.</h2>
+        <p class="lede">A public reply is a legal document set in a friendly font. These four rules run on every draft before you ever see it — turn one off above and watch the draft get risky.</p>
+      </div>
+      <div class="why-grid">
+        <article class="why">
+          <span class="why-num">01</span>
+          <h3>No refunds or prices in public</h3>
+          <p>A public “we will refund you” invites every other customer to ask for one, and turns a complaint into a negotiation. Money is settled on the phone or at the counter; the reply only says we will make it right.</p>
+        </article>
+        <article class="why">
+          <span class="why-num">02</span>
+          <h3>No treatment or client details</h3>
+          <p>Insurance, diagnoses, invoices, appointment history, who said what in your chair — none of it belongs under a review. This is what keeps a dental reply HIPAA-safe and a salon reply out of a screenshot war.</p>
+        </article>
+        <article class="why">
+          <span class="why-num">03</span>
+          <h3>No excuses, no blame</h3>
+          <p>Staff shortages, “that is our policy”, the customer’s own behaviour: all of it reads as defence in public. A reply may explain what changed. It never explains why it was not really our fault.</p>
+        </article>
+        <article class="why">
+          <span class="why-num">04</span>
+          <h3>Signed by a person</h3>
+          <p>Every reply ends with the owner’s name and the shop. Anonymous “management” replies are what customers get from chains — a signature is what they get from a shop that stands behind its answer.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="section demo-pilot" id="pilot-cta">
+    <div class="wrap">
+      <p class="eyebrow">Founding 5 pilot</p>
+      <h2>Want this running on your own reviews?</h2>
+      <p class="lede">Thirty days free, five shops only. You invite us as a Manager on your Google Business Profile — never a password — and every 1–3★ draft comes to you before it goes live.</p>
+      <div class="demo-cta-row">
+        <a class="btn btn-primary" href="index.html#pilot">Start 30-Day Free Pilot</a>
+        <a class="btn btn-ghost btn-ghost-light" href="index.html#plans">See plans &amp; pricing</a>
+      </div>
+      <p class="demo-hero-note">No card charged during the pilot · Cancel anytime · caremyshop.team@gmail.com</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <span class="brand-name">Care<em style="color:#10B981;font-style:normal">My</em>Shop</span>
+      <p style="margin-top:10px;max-width:420px">Concierge-grade daily care for neighborhood shops — review replies, weekly posts, and a monthly competitor snapshot, without agency bloat.</p>
+    </div>
+    <div>
+      <p><strong style="color:#fff">Contact</strong></p>
+      <p><a href="mailto:caremyshop.team@gmail.com">caremyshop.team@gmail.com</a></p>
+      <p><a href="index.html#pilot">Request a free pilot</a></p>
+      <p><a href="flyer-en.html">Printable flyer (EN)</a></p>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="footer-note">© 2026 CareMyShop. All rights reserved. CareMyShop works through a Google Business Profile Manager invite only and never asks for your password. Prices in USD; pilot converts to $39/mo only with your approval.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var RAILS = [
+    { id: "refund",  label: "No refund or price promises", hint: "Never promises money back, a discount or free service in a public reply." },
+    { id: "privacy", label: "No medical or client details", hint: "Keeps treatment, insurance, invoices and appointment history out of public view." },
+    { id: "excuse",  label: "No excuses or blame",          hint: "No staff shortages, no “our policy”, no blaming the customer." },
+    { id: "sign",    label: "Keep the owner signature",     hint: "Every reply ends with the owner’s name and the shop, never “management”." }
+  ];
+
+  var SCENARIOS = [
+    { id: "wait1",  stars: 1, label: "Wait time · Billing" },
+    { id: "mis2",   stars: 2, label: "Misunderstanding" },
+    { id: "good4",  stars: 4, label: "Good service" },
+    { id: "loyal5", stars: 5, label: "Loyal regular" }
+  ];
+
+  var ICONS = {
+    dental: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.4 3.2c-2.5 0-4.4 1.8-4.4 4.2 0 2 .7 3.5 1.1 5.3.5 2 .6 5 2 5 1.3 0 1.4-3.1 2.5-3.1s1.2 3.1 2.5 3.1c1.4 0 1.5-3 2-5 .4-1.8 1.1-3.3 1.1-5.3 0-2.4-1.9-4.2-4.4-4.2-1 0-1.4.6-2.2.6s-1.2-.6-2.2-.6Z"/></svg>',
+    auto:   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 15.5v-2.2l2-4.6a1.5 1.5 0 0 1 1.4-.9h10.2a1.5 1.5 0 0 1 1.4.9l2 4.6v2.2"/><path d="M5 12.2h14"/><circle cx="7.4" cy="16.4" r="1.7"/><circle cx="16.6" cy="16.4" r="1.7"/></svg>',
+    salon:  '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6.2" r="2.3"/><circle cx="6" cy="17.8" r="2.3"/><path d="M7.7 7.8 20 18.2M7.7 16.2 20 5.8"/></svg>',
+    bakery: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h12.5v5.2a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8.5Z"/><path d="M16.5 9.5h1.6a2.6 2.6 0 0 1 0 5.2h-1.6"/><path d="M4 21h13"/></svg>'
+  };
+
+  var SHOPS = [
+    {
+      id: "dental",
+      label: "Dental clinic",
+      shop: "Bright Smile Dental",
+      reviews: {
+        wait1: {
+          tag: "Wait time · Billing",
+          title: "50 minutes past my appointment, then a different price",
+          who: "Google review · first visit · 2 days ago",
+          approval: true,
+          body: "Waited 50 minutes past my appointment time for a cleaning, then the front desk told me I owed $180 instead of the $95 I was quoted on the phone. Nobody explained the difference. I left without being seen.",
+          reply: [
+            [
+              "Thank you for telling us plainly what that morning was like. Waiting 50 minutes past your appointment and then hearing a different number at the desk than the one quoted on the phone is not the visit we want anyone to have.",
+              { rail: "excuse", on: "You are right that nobody explained the difference, and that is on us, not on you.", off: "Our front desk has been short-staffed since two people left last month, which is why the quote never got updated." }
+            ],
+            [
+              { rail: "privacy", on: "We will not discuss your estimate or your coverage here, because your insurance is your business.", off: "Your Delta Dental plan only covers one cleaning every six months, which is why the $180 appeared on the screen." },
+              { rail: "refund", on: "Instead, call the office and ask for Jennifer: we will go line by line through what your insurance covers and what it does not, before you sit in a chair.", off: "We will waive the $85 difference and give you the cleaning free on your next visit to make up for the morning." }
+            ],
+            [
+              "If you give us another appointment, I will check your estimate against your plan the day before, and you will hear the final number from us first."
+            ],
+            [
+              { rail: "sign", on: "— Dr. Anna Lee, Bright Smile Dental", off: "— Management" }
+            ]
+          ],
+          why: "Owns the 50-minute wait, moves the money conversation to a private call, and keeps the insurance details out of public view."
+        },
+        mis2: {
+          tag: "Misunderstanding",
+          title: "“Not even at the lab yet” — then a call saying it was ready",
+          who: "Google review · crown patient · 1 week ago",
+          approval: true,
+          body: "I was told my crown would be ready in two weeks. When I called on day 14, the person on the phone said it “wasn’t even at the lab yet” — then a different person called me the same afternoon to say it was ready. Confusing and a bit insulting.",
+          reply: [
+            [
+              "Thank you for staying with us through that. A “not even at the lab yet” answer on day 14 and a ready-for-pickup call the same afternoon is exactly the kind of mixed message that makes a patient feel handled instead of cared for.",
+              { rail: "excuse", on: "You were not being given the runaround: our phone notes simply had not been updated when the case came back, and I am sorry you were the one who felt the confusion.", off: "The person you spoke with was new and did not know how to read the lab tracker, which is how you got two different answers in one day." }
+            ],
+            [
+              { rail: "privacy", on: "I will go through what happened with your case with you directly, not in a public reply.", off: "Your crown went out to the Queens lab on the 3rd, which is why the tracker and the phone answer disagreed." },
+              { rail: "refund", on: "Call the office and ask for me: I would rather spend ten minutes on the phone than leave you unsure about a crown that is sitting in our lab right now.", off: "To make it right, we will credit the $400 crown fee back to your account." }
+            ],
+            [ "Your permanent crown is here and ready. When you come in, ask for me at the front and I will fit it myself." ],
+            [ { rail: "sign", on: "— Dr. Anna Lee, Bright Smile Dental", off: "— Management" } ]
+          ],
+          why: "Takes the confusion personally, keeps the case file private, and opens a direct line to the dentist instead of the front desk."
+        },
+        good4: {
+          tag: "Good service",
+          title: "“The first visit that didn’t feel like a lecture”",
+          who: "Google review · avoided dentists for six years · 3 days ago",
+          approval: false,
+          body: "Maria did my deep cleaning and talked me through every step — I’ve avoided dentists for six years and this was the first visit that didn’t feel like a lecture. Only reason it’s not five stars: the waiting room TV was on a news channel, very loud.",
+          reply: [
+            [
+              "Thank you. “The first visit that did not feel like a lecture” is the sentence we work for, and Maria will be glad to hear it after six years away.",
+              { rail: "excuse", on: "You are right about the TV: it was loud and on the wrong channel, and that is a small thing we can simply fix.", off: "The TV is wired into the building’s system, so there is not much we can do about the channel." }
+            ],
+            [
+              { rail: "privacy", on: "We will keep the details of your cleaning between you and your hygienist.", off: "After six years away, your cleaning was a full-mouth debridement plus two quadrants of scaling, which is why it took the full hour." },
+              { rail: "refund", on: "Nothing to make up for, but the front desk will put the TV on something quiet before you sit down next time.", off: "We will take 20% off your next cleaning for the noise." }
+            ],
+            [ "See you at your six-month recall. Bring the same nerves — they are welcome here." ],
+            [ { rail: "sign", on: "— Dr. Anna Lee, Bright Smile Dental", off: "— Management" } ]
+          ],
+          why: "Quotes the six years and Maria’s name, and answers the TV complaint with a change the patient can check next visit."
+        },
+        loyal5: {
+          tag: "Loyal regular",
+          title: "“Third year, three kids, and Jennifer knows who gets nervous”",
+          who: "Google review · family of five · 5 days ago",
+          approval: false,
+          body: "Third year in a row bringing the whole family here. Jennifer at the front desk knows all three kids’ names and remembers who’s nervous. Dr. Lee found a cracked filling last time that another office missed.",
+          reply: [
+            [
+              "Three years and three kids: thank you for trusting us with your family, and for noticing that Jennifer remembers exactly who gets nervous.",
+              { rail: "excuse", on: "We will keep working to catch small things early, because that is the part of this job that matters most.", off: "It is easier to catch a cracked filling when a family actually comes in every six months the way you do." }
+            ],
+            [
+              { rail: "privacy", on: "The details of the filling and the treatment stay between us and your chart.", off: "That cracked filling was hiding under a 12-year-old amalgam that was already failing, and the X-ray caught it early." },
+              { rail: "refund", on: "Nothing needed here but a thank-you. Your next visit is already on the books.", off: "As a thank-you, we will waive your next copay." }
+            ],
+            [ "Give the kids a high-five from Maria, and we will see you in the spring." ],
+            [ { rail: "sign", on: "— Dr. Anna Lee, Bright Smile Dental", off: "— Management" } ]
+          ],
+          why: "Repays three years of loyalty with the kids’ names and the early catch, without turning a compliment into a pitch."
+        }
+      }
+    },
+    {
+      id: "auto",
+      label: "Auto repair",
+      shop: "Genesis Auto Care",
+      reviews: {
+        wait1: {
+          tag: "Wait time · Billing",
+          title: "Promised noon, finished at three, and $60 of “shop supplies”",
+          who: "Google review · brake job · 4 days ago",
+          approval: true,
+          body: "Dropped my Camry at 8am for brakes, was told it’d be done by noon. At 3pm it was still on the lift and nobody called me once. Final bill was $60 more than the quote because of “shop supplies” I never heard about.",
+          reply: [
+            [
+              "An 8am drop-off promised for noon that finished at 3 with no phone call is not how a day should go for anyone, and “shop supplies” appearing for the first time at the counter is exactly what makes people stop trusting a shop.",
+              { rail: "excuse", on: "The delay was ours to manage: we took in a job ahead of yours and never told you what that would do to your afternoon.", off: "We are down one tech since Eddie left, so we are running behind on everything this month." }
+            ],
+            [
+              { rail: "privacy", on: "I will not go through your invoice line by line on a public page.", off: "Your invoice also shows the two back tires you asked us to hold off on, which is why the total looked bigger than the quote." },
+              { rail: "refund", on: "Bring the invoice in and ask for me: we will walk every line together, including the supplies charge, and you decide whether it is fair before we talk about anything else.", off: "I will refund the $60 supplies charge and do your next oil change free." }
+            ],
+            [ "If you give us the car again, you will get a call at noon either way: done, or exactly what is holding it up." ],
+            [ { rail: "sign", on: "— Tony, Genesis Auto Care", off: "— The front desk" } ]
+          ],
+          why: "Owns the missing phone call and settles the bill at the counter instead of in the comments."
+        },
+        mis2: {
+          tag: "Misunderstanding",
+          title: "A $40 oil change that turned into a $1,400 list",
+          who: "Google review · pre-trip check · 1 week ago",
+          approval: true,
+          body: "Asked for an oil change and a “once-over” before a road trip. When I picked it up, the shop said I needed $1,400 of work — struts, brakes, and a cabin filter — and that it “shouldn’t wait”. I felt like I was being sold to, not advised.",
+          reply: [
+            [
+              "Thank you for saying it plainly. If a once-over turns into a $1,400 list and a “shouldn’t wait”, then we made you feel sold to instead of advised, which is the opposite of the point.",
+              { rail: "excuse", on: "Our advisor should have separated what is urgent from what can wait a year, in that order, before putting a number in front of you.", off: "Our advisors work on commission, which is probably why the list came out the way it did." }
+            ],
+            [
+              { rail: "privacy", on: "Nothing about your car’s history needs to be aired here.", off: "Your service record shows the brakes were done at another shop in 2022, so we assumed they were not done properly." },
+              { rail: "refund", on: "Come by and ask for me: I will put the car back on the lift, go through the struts and the brakes with you, and re-quote only what is actually due.", off: "We will drop the cabin filter and take $200 off the strut job." }
+            ],
+            [ "If the trip has already happened, tell me how the car felt at speed. That tells us more than the list does." ],
+            [ { rail: "sign", on: "— Tony, Genesis Auto Care", off: "— The front desk" } ]
+          ],
+          why: "Separates urgent from optional, offers the lift instead of a discount, and keeps the service record out of public view."
+        },
+        good4: {
+          tag: "Good service",
+          title: "“The quote was the bill, to the dollar”",
+          who: "Google review · repeat customer · 6 days ago",
+          approval: false,
+          body: "They quoted me $480 for pads and rotors and the bill was $480 — no games. Loaner car saved my week. Waiting room could use better coffee but that’s a small thing.",
+          reply: [
+            [
+              "Thank you. “The quote was the bill” is the only way we want to do business, and I am glad the loaner kept your week moving.",
+              { rail: "excuse", on: "Fair point on the coffee, and it is an easy one: fresh pot, better beans, starting tomorrow.", off: "The coffee machine belongs to the landlord, so there is not much we can do about it." }
+            ],
+            [
+              { rail: "privacy", on: "I will keep your car’s details out of this reply.", off: "Your Camry is about 900 miles from its 60k service, according to our notes, so we will be calling you soon." },
+              { rail: "refund", on: "No discount needed on a job done right. Come back for the oil change and the coffee will be waiting.", off: "Next brake job, I will take 15% off for the trouble." }
+            ],
+            [ "Brakes done right and a bill that matches the quote is the baseline, not a favour. We will keep the loaner ready for you." ],
+            [ { rail: "sign", on: "— Tony, Genesis Auto Care", off: "— The front desk" } ]
+          ],
+          why: "Confirms the matched quote and the loaner, and turns the coffee jab into a change the customer can check."
+        },
+        loyal5: {
+          tag: "Loyal regular",
+          title: "“Tony talked my daughter out of a repair she didn’t need”",
+          who: "Google review · ten years, four cars · 2 weeks ago",
+          approval: false,
+          body: "Fourth car I’ve brought here in ten years, including my daughter’s first car. Tony talked her out of a repair she didn’t need and showed her the underside on the lift so she’d understand. That’s why I keep coming back.",
+          reply: [
+            [
+              "Ten years and four cars, and the thing you remember is Tony talking your daughter out of a repair and putting the car on the lift to show her why. That is the whole shop in one story, so thank you.",
+              { rail: "excuse", on: "We will keep explaining before we repair, even when the explanation costs us the sale.", off: "Most shops would have sold her that flush, and that is exactly why they lose customers like you." }
+            ],
+            [
+              { rail: "privacy", on: "The details of her inspection stay between us.", off: "Her “repair she did not need” was a transmission flush at 40k that the other shop had recommended twice." },
+              { rail: "refund", on: "Nothing owed and nothing discounted. Bring her back for the next oil change and we will keep doing it the same way.", off: "Her next oil change is free on us, and tell her to bring the car in whenever." }
+            ],
+            [ "Send her our way when the inspection sticker comes due. The lift is hers for the morning." ],
+            [ { rail: "sign", on: "— Tony, Genesis Auto Care", off: "— The front desk" } ]
+          ],
+          why: "Turns the story into the shop’s philosophy and keeps the daughter’s service record private."
+        }
+      }
+    },
+    {
+      id: "salon",
+      label: "Nail & hair salon",
+      shop: "MG Hair & Nails",
+      reviews: {
+        wait1: {
+          tag: "Wait time · Billing",
+          title: "A 5:30 appointment seated at 6:20, and a “deluxe” nobody asked for",
+          who: "Google review · gel manicure · 3 days ago",
+          approval: true,
+          body: "Booked a gel manicure at 5:30 and wasn’t seated until 6:20, then was charged $65 for the “deluxe” without being asked. My nails chipped in three days.",
+          reply: [
+            [
+              "A 5:30 appointment that started at 6:20, a “deluxe” charge nobody asked for, and a set that chipped in three days is not the manicure we promise, and none of it should have happened without a word to you.",
+              { rail: "excuse", on: "The wait was ours to manage, and so was the charge on your bill.", off: "We had two walk-ins and one nail tech out sick, so the whole evening fell apart." }
+            ],
+            [
+              { rail: "privacy", on: "Your bill and your appointment history stay between us.", off: "Our notes show this is the third gel set we have had to redo for you this year." },
+              { rail: "refund", on: "Come back in this week and ask for Mina: I will look at the set myself, and we will sort the bill out privately before anything else.", off: "I will refund the $65 and redo your nails free." }
+            ],
+            [ "Book the first slot on a weekday morning and I will take you myself. The shop is quiet then and nothing gets rushed." ],
+            [ { rail: "sign", on: "— Mina, MG Hair & Nails", off: "— MG Hair & Nails" } ]
+          ],
+          why: "Owns the wait and the surprise charge, and offers a private fix instead of a public coupon."
+        },
+        mis2: {
+          tag: "Misunderstanding",
+          title: "Asked for two inches and layers, left with a chin-length cut",
+          who: "Google review · first visit · 5 days ago",
+          approval: true,
+          body: "I showed a photo of a short, layered bob and said I wanted two inches off. I came out with a chin-length cut and no layers. When I said something, the stylist told me this “suits my face better”.",
+          reply: [
+            [
+              "Asking for two inches and layers and leaving with a chin-length cut is one kind of mistake. Hearing “it suits your face better” instead of an apology is the other, and you are right to say both out loud.",
+              { rail: "excuse", on: "The stylist’s call should have been made with you, not over you. That is where we went wrong.", off: "That stylist is still learning, and English is not her first language, so she may have misread the photo." }
+            ],
+            [
+              { rail: "privacy", on: "Who cut your hair and how often is not something I will discuss in public.", off: "Your file shows two visits with that stylist, and two other redo requests from her chair this month." },
+              { rail: "refund", on: "Come in this week and ask for Mina: I will shape it into the short layered bob you asked for, and we will talk about today’s visit face to face.", off: "Today’s cut is free, and take 30% off your next colour." }
+            ],
+            [ "Bring the photo again and show me exactly where it should sit: length at the jaw or above it, layers starting at the ear." ],
+            [ { rail: "sign", on: "— Mina, MG Hair & Nails", off: "— MG Hair & Nails" } ]
+          ],
+          why: "Apologizes for the “suits your face” line, offers a reshape in person, and keeps the stylist’s record private."
+        },
+        good4: {
+          tag: "Good service",
+          title: "“My own mother didn’t notice the colour correction”",
+          who: "Google review · colour correction · 1 week ago",
+          approval: false,
+          body: "Mina fixed a box dye disaster and matched my natural colour so well my own mother didn’t notice. Took almost three hours but she never rushed. Music was a little loud.",
+          reply: [
+            [
+              "Thank you. “My own mother did not notice” is the best review a colour correction can get, and three hours without rushing is the only way it can be done.",
+              { rail: "excuse", on: "You are right about the music; the front speakers are a notch lower from now on.", off: "The music comes from the building’s system, so we cannot really change it." }
+            ],
+            [
+              { rail: "privacy", on: "I will keep the details of your colour work between us.", off: "The box dye was a level 3 black over highlights, which is exactly why it took three hours." },
+              { rail: "refund", on: "Nothing to make up for, but ask for the chair by the window next time. It is the quiet one.", off: "Come back for a gloss treatment on the house." }
+            ],
+            [ "Next time book the long appointment again. I would rather take three hours than rush a correction." ],
+            [ { rail: "sign", on: "— Mina, MG Hair & Nails", off: "— MG Hair & Nails" } ]
+          ],
+          why: "Thanks the customer for the exact compliment and answers the noise complaint with a seat, not an excuse."
+        },
+        loyal5: {
+          tag: "Loyal regular",
+          title: "“She remembers I hate small talk — and just lets me sit quietly”",
+          who: "Google review · six years, standing Thursday · 2 weeks ago",
+          approval: false,
+          body: "Been coming to Mina for six years, through two kids, a move to Astoria and back. She remembers how I like my nails and that I hate small talk — she just lets me sit quietly. The whole shop feels like that.",
+          reply: [
+            [
+              "Six years, two kids, and a move to Astoria and back, and the part you noticed is that we let you sit quietly. That is the shop we are trying to be, so thank you for putting it into words.",
+              { rail: "excuse", on: "We will keep the quiet chair open and the small talk optional.", off: "Most shops talk your ear off for the tip. We would rather keep a client for six years." }
+            ],
+            [
+              { rail: "privacy", on: "The details of your appointments stay between us.", off: "Your file shows the standing Thursday has moved eleven times this year, and we kept it open each time." },
+              { rail: "refund", on: "Nothing to discount. Keep the standing Thursday and it is yours.", off: "Your next two visits are on us — six years deserves it." }
+            ],
+            [ "See you Thursday. Bring a book, or bring nothing at all." ],
+            [ { rail: "sign", on: "— Mina, MG Hair & Nails", off: "— MG Hair & Nails" } ]
+          ],
+          why: "Repays six years of loyalty with the quiet chair instead of a discount."
+        }
+      }
+    },
+    {
+      id: "bakery",
+      label: "Bakery & cafe",
+      shop: "Somedays Bakery",
+      reviews: {
+        wait1: {
+          tag: "Wait time · Billing",
+          title: "A birthday cake promised for 2pm, and $12 of “buttercream”",
+          who: "Google review · birthday order · 3 days ago",
+          approval: true,
+          body: "Ordered a birthday cake for pickup at 2pm, got there and it wasn’t ready — took 25 more minutes. Then they charged me $12 more than the deposit receipt said because I “upgraded to buttercream”.",
+          reply: [
+            [
+              "A cake promised for 2pm that was not ready, then $12 more than your receipt because you “upgraded to buttercream”: that is not a birthday we want any part of.",
+              { rail: "excuse", on: "The cake should have been finished, and the change should have been explained before the deposit, not at pickup.", off: "Our decorator called out that morning and the new girl did not know the buttercream was an upgrade." }
+            ],
+            [
+              { rail: "privacy", on: "Your order and your receipt stay between you and me.", off: "The order slip says “buttercream if available”, and nobody called you to confirm it." },
+              { rail: "refund", on: "Come by and ask for Esther: I will go through the receipt with you line by line, and we will settle the difference privately, before you order anything else.", off: "I will refund the $12 in cash and add a box of pastries for the trouble." }
+            ],
+            [ "If you give us another birthday, call the day before and I will confirm both the cake and the price with you myself." ],
+            [ { rail: "sign", on: "— Esther, Somedays Bakery", off: "— Somedays Bakery" } ]
+          ],
+          why: "Names both failures, the late cake and the surprise charge, and settles the money at the counter."
+        },
+        mis2: {
+          tag: "Misunderstanding",
+          title: "“I don’t think so” is not an answer about nut allergies",
+          who: "Google review · walked out · 1 week ago",
+          approval: true,
+          body: "I asked if the almond croissants had nuts in them and the girl said “I don’t think so”. My son has a nut allergy — that’s not an answer. We left without buying anything.",
+          reply: [
+            [
+              "“I don’t think so” is not an answer anyone with a nut allergy can use, and walking out was the right call. The only good part of that morning is that your son ate nothing.",
+              { rail: "excuse", on: "Everyone behind our counter should know the allergen sheet by heart and be able to read it out loud. That is ours to fix this week.", off: "The girl is new and has not done the allergen sheet yet, and our regular girl was on break." }
+            ],
+            [
+              { rail: "privacy", on: "I will not discuss anyone’s health or orders here.", off: "We have several customers with nut allergies who ask about the croissants, so the sheet does exist." },
+              { rail: "refund", on: "Come in and ask for Esther: I will walk the case with you, ingredient sheets in hand, so you can decide what is safe for him before you buy anything.", off: "Bring your son in and everything he wants that day is free." }
+            ],
+            [ "Ask for me by name any time and I will read the sheet to you myself, even through the counter." ],
+            [ { rail: "sign", on: "— Esther, Somedays Bakery", off: "— Somedays Bakery" } ]
+          ],
+          why: "Treats the allergen answer as a safety failure and offers a guided walk of the case with the sheets in hand."
+        },
+        good4: {
+          tag: "Good service",
+          title: "“Best milk bread in Flushing — but sold out by 1pm”",
+          who: "Google review · weekend regular · 4 days ago",
+          approval: false,
+          body: "The milk bread is the best in Flushing, full stop. Line moves fast. Only complaint: they sell out by 1pm on weekends and there’s no sign telling you what’s gone.",
+          reply: [
+            [
+              "Thank you. “Best milk bread in Flushing” is going on the wall, and I am glad the line kept moving.",
+              { rail: "excuse", on: "You are right that there is no sign when things sell out, and there is no good reason for that. A sold-out board goes up by the door this Saturday, updated by 11.", off: "We bake as much as the ovens allow, so selling out on a Saturday is just what happens." }
+            ],
+            [
+              { rail: "privacy", on: "I will keep your order history out of this.", off: "Your usual two milk breads on Saturday morning is exactly why you keep meeting the sold-out slot." },
+              { rail: "refund", on: "No coupon needed for a compliment like that. Come before 11 on Saturday and the board will tell you what is left.", off: "Come in Sunday and your loaf is on us." }
+            ],
+            [ "If the board is up and the milk bread is gone, ask the counter what came out of the oven last. There is always something warm." ],
+            [ { rail: "sign", on: "— Esther, Somedays Bakery", off: "— Somedays Bakery" } ]
+          ],
+          why: "Makes the sold-out board a dated commitment and answers the compliment without a coupon."
+        },
+        loyal5: {
+          tag: "Loyal regular",
+          title: "“A tray showed up at my father’s funeral without a word”",
+          who: "Google review · since 2019 · 2 weeks ago",
+          approval: false,
+          body: "I’ve been buying the rice cakes here for every family birthday since 2019. Esther remembers which ones my mother likes and sets them aside without being asked. When my father passed, she sent a tray to the funeral without saying a word to anyone.",
+          reply: [
+            [
+              "Since 2019, every family birthday, and a tray that arrived without anyone being asked: that is the shop we hope we are, and thank you for saying it out loud.",
+              { rail: "excuse", on: "We will keep doing the small things quietly, and we will keep the white rice cake where your mother can find it.", off: "Not every bakery remembers a customer’s mother’s favourite. That is why people come to us instead of the chains." }
+            ],
+            [
+              { rail: "privacy", on: "What we did for your family stays between us.", off: "There is a note in the back: “mother likes the white rice cake with red bean, no chestnut”, and we keep it for every order." },
+              { rail: "refund", on: "Nothing to discount. Your standing order stays exactly as it is, and the tray is ready whenever the family needs it.", off: "The next birthday order is on us, and the funeral tray too." }
+            ],
+            [ "When the next birthday comes, call and ask for me. I will make sure the box is right before it leaves the counter." ],
+            [ { rail: "sign", on: "— Esther, Somedays Bakery", off: "— Somedays Bakery" } ]
+          ],
+          why: "Honours the funeral tray without exploiting it and keeps the family’s note private."
+        }
+      }
+    }
+  ];
+
+  var state = {
+    shop: "dental",
+    scenario: "wait1",
+    rails: { refund: true, privacy: true, excuse: true, sign: true }
+  };
+
+  var els = {
+    shopGrid: document.getElementById("shop-grid"),
+    scenarioList: document.getElementById("scenario-list"),
+    railList: document.getElementById("rail-list"),
+    railReset: document.getElementById("rail-reset"),
+    reviewCard: document.getElementById("review-card"),
+    draftSub: document.getElementById("draft-sub"),
+    draftPill: document.getElementById("draft-pill"),
+    draftBody: document.getElementById("draft-body"),
+    draftWhy: document.getElementById("draft-why"),
+    draftCount: document.getElementById("draft-count"),
+    policyList: document.getElementById("policy-list"),
+    policyCount: document.getElementById("policy-count"),
+    copyBtn: document.getElementById("copy-reply")
+  };
+
+  function shopById(id) {
+    for (var i = 0; i < SHOPS.length; i++) { if (SHOPS[i].id === id) { return SHOPS[i]; } }
+    return SHOPS[0];
+  }
+
+  function currentReview() {
+    return shopById(state.shop).reviews[state.scenario];
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function stars(n) {
+    var full = "★★★★★".slice(0, n);
+    var empty = "☆☆☆☆☆".slice(0, 5 - n);
+    return full + empty;
+  }
+
+  function railById(id) {
+    for (var i = 0; i < RAILS.length; i++) { if (RAILS[i].id === id) { return RAILS[i]; } }
+    return null;
+  }
+
+  function railsOffCount() {
+    var n = 0;
+    for (var i = 0; i < RAILS.length; i++) { if (!state.rails[RAILS[i].id]) { n++; } }
+    return n;
+  }
+
+  function paragraphText(par) {
+    var out = [];
+    for (var i = 0; i < par.length; i++) {
+      var part = par[i];
+      out.push(typeof part === "string" ? part : (state.rails[part.rail] ? part.on : part.off));
+    }
+    return out.join(" ");
+  }
+
+  function replyPlainText() {
+    var review = currentReview();
+    var paras = [];
+    for (var i = 0; i < review.reply.length; i++) { paras.push(paragraphText(review.reply[i])); }
+    return paras.join("\n\n");
+  }
+
+  function snippet(text) {
+    var t = String(text).replace(/\s+/g, " ").trim();
+    return t.length > 108 ? t.slice(0, 105) + "…" : t;
+  }
+
+  function offTextFor(railId) {
+    var review = currentReview();
+    for (var i = 0; i < review.reply.length; i++) {
+      var par = review.reply[i];
+      for (var j = 0; j < par.length; j++) {
+        var part = par[j];
+        if (typeof part !== "string" && part.rail === railId) { return part.off; }
+      }
+    }
+    return "";
+  }
+
+  function replyHTML() {
+    var review = currentReview();
+    var blocks = [];
+    for (var i = 0; i < review.reply.length; i++) {
+      var par = review.reply[i];
+      var spans = [];
+      for (var j = 0; j < par.length; j++) {
+        var part = par[j];
+        if (typeof part === "string") {
+          spans.push(esc(part));
+        } else if (state.rails[part.rail]) {
+          spans.push(esc(part.on));
+        } else {
+          var rail = railById(part.rail);
+          spans.push(
+            '<span class="rail-off" title="Guard rail off: ' + esc(rail ? rail.label : part.rail) + '">' +
+            esc(part.off) +
+            '<span class="rail-off-tag">rail off</span></span>'
+          );
+        }
+      }
+      blocks.push("<p>" + spans.join(" ") + "</p>");
+    }
+    return blocks.join("");
+  }
+
+  function policyListHTML() {
+    var items = [];
+    for (var i = 0; i < RAILS.length; i++) {
+      var rail = RAILS[i];
+      var on = state.rails[rail.id];
+      var note = on
+        ? '<span class="p-note">' + esc(rail.hint) + "</span>"
+        : '<span class="p-note alert">Off. This draft now says: “' + esc(snippet(offTextFor(rail.id))) + '”</span>';
+      items.push(
+        "<li>" +
+          '<span class="p-mark ' + (on ? "on" : "off") + '" aria-hidden="true">' + (on ? "✓" : "✗") + "</span>" +
+          "<span><span class=\"p-rule\">" + esc(rail.label) + "</span>" + note + "</span>" +
+        "</li>"
+      );
+    }
+    return items.join("");
+  }
+
+  function renderReviewCard() {
+    var review = currentReview();
+    var shop = shopById(state.shop);
+    els.reviewCard.innerHTML =
+      '<div class="r-top">' +
+        '<span class="r-stars" aria-label="' + scenarioStars() + ' out of 5 stars">' + stars(scenarioStars()) + "</span>" +
+        '<span class="r-tag">' + esc(review.tag) + "</span>" +
+        '<span class="r-meta">' + esc(review.who) + "</span>" +
+      "</div>" +
+      "<h2>“" + esc(review.title) + "”</h2>" +
+      "<blockquote><p>“" + esc(review.body) + "”</p>" +
+      "<footer>— Google review · " + scenarioStars() + "★ · " + esc(shop.shop) + "</footer></blockquote>";
+  }
+
+  function scenarioStars() {
+    for (var i = 0; i < SCENARIOS.length; i++) {
+      if (SCENARIOS[i].id === state.scenario) { return SCENARIOS[i].stars; }
+    }
+    return 5;
+  }
+
+  function render() {
+    var shop = shopById(state.shop);
+    var review = currentReview();
+
+    renderReviewCard();
+
+    els.draftSub.textContent = "Reply for " + shop.shop;
+
+    var off = railsOffCount();
+    if (off > 0) {
+      els.draftPill.className = "pill warn";
+      els.draftPill.textContent = off + (off === 1 ? " rail off" : " rails off") + " · needs a look";
+    } else if (review.approval) {
+      els.draftPill.className = "pill review";
+      els.draftPill.textContent = "Owner approval required";
+    } else {
+      els.draftPill.className = "pill ok";
+      els.draftPill.textContent = "Ready to post · within 48h";
+    }
+
+    els.draftBody.innerHTML = replyHTML();
+    els.draftWhy.innerHTML = "<b>Why this reply works:</b> " + esc(review.why);
+
+    var text = replyPlainText();
+    var words = text.split(/\s+/).length;
+    els.draftCount.textContent = words + " words · " + (4 - off) + " of 4 guard rails on";
+
+    els.policyList.innerHTML = policyListHTML();
+    els.policyCount.textContent = (4 - off) + " of 4 on";
+    els.copyBtn.textContent = "Copy draft reply";
+    els.copyBtn.classList.remove("is-copied");
+  }
+
+  function buildControls() {
+    var shopHTML = [];
+    for (var i = 0; i < SHOPS.length; i++) {
+      var s = SHOPS[i];
+      shopHTML.push(
+        '<button class="pick" type="button" data-shop="' + s.id + '" aria-pressed="' + (s.id === state.shop) + '">' +
+          ICONS[s.id] + "<span>" + esc(s.label) + "</span>" +
+        "</button>"
+      );
+    }
+    els.shopGrid.innerHTML = shopHTML.join("");
+
+    var scenarioHTML = [];
+    for (var k = 0; k < SCENARIOS.length; k++) {
+      var sc = SCENARIOS[k];
+      scenarioHTML.push(
+        '<button class="pick scenario" type="button" data-scenario="' + sc.id + '" aria-pressed="' + (sc.id === state.scenario) + '">' +
+          '<span class="s-main"><span class="s-stars">' + stars(sc.stars) + '</span><span class="s-tag">' + esc(sc.label) + "</span></span>" +
+        "</button>"
+      );
+    }
+    els.scenarioList.innerHTML = scenarioHTML.join("");
+
+    var railHTML = [];
+    for (var m = 0; m < RAILS.length; m++) {
+      var r = RAILS[m];
+      railHTML.push(
+        '<label class="rail" for="rail-' + r.id + '">' +
+          '<input type="checkbox" id="rail-' + r.id + '" data-rail="' + r.id + '"' + (state.rails[r.id] ? " checked" : "") + ">" +
+          "<span><span class=\"r-label\">" + esc(r.label) + '</span><span class="r-hint">' + esc(r.hint) + "</span></span>" +
+        "</label>"
+      );
+    }
+    els.railList.innerHTML = railHTML.join("");
+  }
+
+  function syncPressed() {
+    var shopBtns = els.shopGrid.querySelectorAll("[data-shop]");
+    for (var i = 0; i < shopBtns.length; i++) {
+      shopBtns[i].setAttribute("aria-pressed", String(shopBtns[i].getAttribute("data-shop") === state.shop));
+    }
+    var scBtns = els.scenarioList.querySelectorAll("[data-scenario]");
+    for (var k = 0; k < scBtns.length; k++) {
+      scBtns[k].setAttribute("aria-pressed", String(scBtns[k].getAttribute("data-scenario") === state.scenario));
+    }
+  }
+
+  function copyText(text, btn) {
+    function done() {
+      btn.textContent = "Copied ✓";
+      btn.classList.add("is-copied");
+      window.setTimeout(function () {
+        btn.textContent = "Copy draft reply";
+        btn.classList.remove("is-copied");
+      }, 2600);
+    }
+    function legacy() {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "0";
+      ta.style.left = "0";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+      document.body.removeChild(ta);
+      if (ok) { done(); } else { btn.textContent = "Select the text and copy it"; }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, legacy);
+    } else {
+      legacy();
+    }
+  }
+
+  buildControls();
+
+  els.shopGrid.addEventListener("click", function (e) {
+    var btn = e.target.closest ? e.target.closest("[data-shop]") : null;
+    if (!btn) { return; }
+    state.shop = btn.getAttribute("data-shop");
+    syncPressed();
+    render();
+  });
+
+  els.scenarioList.addEventListener("click", function (e) {
+    var btn = e.target.closest ? e.target.closest("[data-scenario]") : null;
+    if (!btn) { return; }
+    state.scenario = btn.getAttribute("data-scenario");
+    syncPressed();
+    render();
+  });
+
+  els.railList.addEventListener("change", function (e) {
+    var input = e.target;
+    if (!input || !input.getAttribute("data-rail")) { return; }
+    state.rails[input.getAttribute("data-rail")] = input.checked;
+    render();
+  });
+
+  els.railReset.addEventListener("click", function () {
+    for (var i = 0; i < RAILS.length; i++) {
+      state.rails[RAILS[i].id] = true;
+      var box = document.getElementById("rail-" + RAILS[i].id);
+      if (box) { box.checked = true; }
+    }
+    render();
+  });
+
+  els.copyBtn.addEventListener("click", function () {
+    copyText(replyPlainText(), els.copyBtn);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
