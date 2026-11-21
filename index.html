@@ -5,11 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CareMyShop — Concierge-Grade Daily Care for Your Neighborhood Shop</title>
   <meta name="description" content="CareMyShop looks after your Google Business Profile every day — thoughtful review replies, weekly posts, and a monthly competitor snapshot — without agency bloat or ad-spend lock-in. 30-day free pilot for 5 founding shops.">
+  <link rel="canonical" href="https://nydds.github.io/caremyshop/">
+  <meta name="theme-color" content="#0F2942">
   <meta name="robots" content="index, follow">
+  <!-- Social preview (Open Graph / Twitter) — for link cards in DM, text, and email -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CareMyShop">
+  <meta property="og:url" content="https://nydds.github.io/caremyshop/">
+  <meta property="og:title" content="CareMyShop — Concierge-grade daily care for your neighborhood shop">
+  <meta property="og:description" content="Every Google review answered within 48 hours, a fresh post every week, and a monthly competitor snapshot — without agency bloat. 30 days free for 5 founding shops, then $39/mo only if you stay.">
+  <meta property="og:image" content="https://nydds.github.io/caremyshop/assets/og-card.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CareMyShop — your neighborhood shop, looked after every day. 30 days free for 5 founding shops.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CareMyShop — Concierge-grade daily care for your neighborhood shop">
+  <meta name="twitter:description" content="Every Google review answered within 48 hours, weekly posts, monthly competitor snapshot. 30 days free for 5 founding shops, then $39/mo only if you stay.">
+  <meta name="twitter:image" content="https://nydds.github.io/caremyshop/assets/og-card.png">
+  <meta name="twitter:image:alt" content="CareMyShop — your neighborhood shop, looked after every day.">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<!-- Submit fallback: shown the moment the pilot form is submitted, in case the mailto: hand-off
+     does nothing (Instagram / Facebook in-app browsers, desktop browsers with no mail app). -->
+<div class="submit-card" id="submit-card" role="dialog" aria-labelledby="submit-card-title" hidden>
+  <div class="wrap">
+    <button class="submit-card-close" id="submit-card-close" type="button" aria-label="Close this panel">×</button>
+    <p class="submit-card-eyebrow">One last step</p>
+    <h3 id="submit-card-title">Finish sending your request</h3>
+    <p class="submit-card-lede">We just handed your details to your email app. If nothing opened — Instagram and Facebook&rsquo;s in-app browsers often block it — copy the two boxes below and send them to us. It takes two taps.</p>
+    <ol class="submit-steps">
+      <li>
+        <span class="submit-step-label">1 · Our email address</span>
+        <div class="submit-row">
+          <span class="submit-address">caremyshop.team@gmail.com</span>
+          <button class="copy-btn" id="copy-email" type="button" data-copy="caremyshop.team@gmail.com">Copy</button>
+        </div>
+      </li>
+      <li>
+        <span class="submit-step-label">2 · Your request details</span>
+        <pre class="submit-summary" id="submit-summary"></pre>
+        <button class="copy-btn copy-btn-wide" id="copy-summary" type="button">Copy my request details</button>
+      </li>
+    </ol>
+    <p class="submit-card-alt">Then paste both into any email, text message, or Instagram message to us. <a id="resend-mailto" href="mailto:caremyshop.team@gmail.com">Or try opening your email app again</a>.</p>
+    <p class="submit-card-note">Nothing is sent until you press send — and nothing is charged. We reply within 1 business day.</p>
+  </div>
+</div>
 
 <header class="site-header">
   <div class="wrap">
@@ -240,7 +286,7 @@
       <div>
         <p class="eyebrow">Founding 5 pilot</p>
         <h2>Claim your free 30 days.</h2>
-        <p class="lede">Five shops. Thirty days. Zero dollars. Tell us about your shop and we&rsquo;ll call you back within one business day to set up your Manager invite.</p>
+        <p class="lede">Five shops. Thirty days. Zero dollars. Tell us about your shop and we&rsquo;ll reply by email within one business day — or call you back if you leave a number.</p>
         <ul class="pilot-fine">
           <li>No card charged during the pilot.</li>
           <li>No password sharing — Manager invite only.</li>
@@ -264,11 +310,13 @@
         <label for="shop-city">Neighborhood / city</label>
         <input id="shop-city" name="shop-city" type="text" placeholder="e.g. Flushing, Queens" required>
         <label for="shop-email">Your email</label>
-        <input id="shop-email" name="shop-email" type="email" placeholder="you@example.com" required>
-        <label for="shop-notes">Anything we should know? <span style="font-weight:400">(optional)</span></label>
+        <input id="shop-email" name="shop-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+        <label for="shop-phone">Phone <span class="form-opt">(optional — we&rsquo;ll call you back)</span></label>
+        <input id="shop-phone" name="shop-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(718) 555-0123">
+        <label for="shop-notes">Anything we should know? <span class="form-opt">(optional)</span></label>
         <textarea id="shop-notes" name="shop-notes" rows="3" placeholder="e.g. We get a lot of reviews in Korean and Spanish."></textarea>
         <button class="btn btn-primary" type="submit">Request my free pilot</button>
-        <p class="form-note">Submitting opens your email app pre-filled to <a href="mailto:caremyshop.team@gmail.com">caremyshop.team@gmail.com</a> — we reply within 1 business day.</p>
+        <p class="form-note">Submitting opens your email app pre-filled to <a href="mailto:caremyshop.team@gmail.com">caremyshop.team@gmail.com</a>. No mail app? A copy button for the address and your details appears right away. We reply within 1 business day.</p>
       </form>
     </div>
   </section>
@@ -293,23 +341,118 @@
 </footer>
 
 <script>
-document.getElementById("pilot-request").addEventListener("submit", function(e) {
-  e.preventDefault();
-  var name = document.getElementById("shop-name").value.trim();
-  var kind = document.getElementById("shop-type").value.trim();
-  var city = document.getElementById("shop-city").value.trim();
-  var email = document.getElementById("shop-email").value.trim();
-  var notes = document.getElementById("shop-notes").value.trim();
-  var subject = encodeURIComponent("30-Day Free Pilot Request — " + name);
-  var body = encodeURIComponent(
-    "Shop name: " + name + "\n" +
-    "Type: " + kind + "\n" +
-    "Neighborhood/City: " + city + "\n" +
-    "Owner email: " + email + "\n" +
-    (notes ? "Notes: " + notes + "\n" : "")
-  );
-  window.location.href = "mailto:caremyshop.team@gmail.com?subject=" + subject + "&body=" + body;
-});
+(function () {
+  var CONTACT_EMAIL = "caremyshop.team@gmail.com";
+  var form = document.getElementById("pilot-request");
+  var card = document.getElementById("submit-card");
+  if (!form || !card) { return; }
+
+  var summaryEl = document.getElementById("submit-summary");
+  var copyEmailBtn = document.getElementById("copy-email");
+  var copySummaryBtn = document.getElementById("copy-summary");
+  var closeBtn = document.getElementById("submit-card-close");
+  var resendLink = document.getElementById("resend-mailto");
+  var lastFocus = null;
+
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : "";
+  }
+
+  function copyText(text, btn, idleLabel) {
+    function done() {
+      btn.textContent = "Copied ✓";
+      btn.classList.add("is-copied");
+      window.setTimeout(function () {
+        btn.textContent = idleLabel;
+        btn.classList.remove("is-copied");
+      }, 2600);
+    }
+    function legacy() {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "0";
+      ta.style.left = "0";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+      document.body.removeChild(ta);
+      if (ok) { done(); } else { btn.textContent = "Select the text and copy it"; }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, legacy);
+    } else {
+      legacy();
+    }
+  }
+
+  function buildRequest() {
+    var name = val("shop-name");
+    var kind = val("shop-type");
+    var city = val("shop-city");
+    var email = val("shop-email");
+    var phone = val("shop-phone");
+    var notes = val("shop-notes");
+    var body = "Shop name: " + name + "\n" +
+      "Type: " + kind + "\n" +
+      "Neighborhood/City: " + city + "\n" +
+      "Owner email: " + email + "\n" +
+      (phone ? "Phone: " + phone + "\n" : "") +
+      (notes ? "Notes: " + notes + "\n" : "");
+    return {
+      subject: "30-Day Free Pilot Request — " + name,
+      body: body,
+      mailto: "mailto:" + CONTACT_EMAIL +
+        "?subject=" + encodeURIComponent("30-Day Free Pilot Request — " + name) +
+        "&body=" + encodeURIComponent(body)
+    };
+  }
+
+  function openCard(request) {
+    summaryEl.textContent = request.body.replace(/\n+$/, "");
+    resendLink.setAttribute("href", request.mailto);
+    card.hidden = false;
+    lastFocus = document.activeElement;
+    window.requestAnimationFrame(function () {
+      copyEmailBtn.focus({ preventScroll: true });
+    });
+  }
+
+  function closeCard() {
+    card.hidden = true;
+    summaryEl.textContent = "";
+    if (lastFocus && typeof lastFocus.focus === "function") {
+      lastFocus.focus({ preventScroll: true });
+    }
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var request = buildRequest();
+    // 1) Show the copy-card first, so it is on screen even if the mail app never opens.
+    openCard(request);
+    // 2) Then keep the original mailto: hand-off exactly as before.
+    window.setTimeout(function () {
+      window.location.href = request.mailto;
+    }, 150);
+  });
+
+  copyEmailBtn.addEventListener("click", function () {
+    copyText(CONTACT_EMAIL, copyEmailBtn, "Copy");
+  });
+  copySummaryBtn.addEventListener("click", function () {
+    copyText(summaryEl.textContent, copySummaryBtn, "Copy my request details");
+  });
+  closeBtn.addEventListener("click", closeCard);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !card.hidden) { closeCard(); }
+  });
+})();
 </script>
 </body>
 </html>
